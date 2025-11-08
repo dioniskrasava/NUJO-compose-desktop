@@ -1,5 +1,6 @@
 package org.example
 
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -99,13 +100,16 @@ sealed class Screen {
 
 @Composable
 fun NutritionApp(state: AppState) {
-    Scaffold(
-        topBar = { TopAppBarSection(state) }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            when (state.currentScreen) {
-                is Screen.Main -> MainScreen(state)
-                is Screen.AddFood -> AddFoodScreen(state)
+    // Настраиваем скроллбар для всего приложения
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = { TopAppBarSection(state) }
+        ) { innerPadding ->
+            Box(modifier = Modifier.padding(innerPadding)) {
+                when (state.currentScreen) {
+                    is Screen.Main -> MainScreen(state)
+                    is Screen.AddFood -> AddFoodScreen(state)
+                }
             }
         }
     }
@@ -132,31 +136,91 @@ fun TopAppBarSection(state: AppState) {
 
 @Composable
 fun MainScreen(state: AppState) {
-    Column(
+    // Состояние для вертикальной прокрутки с видимым скроллбаром
+    val verticalScrollState = rememberScrollState()
+
+    // Создаем много контента для демонстрации прокрутки
+    val demoFoodItems = remember {
+        List(20) { i ->
+            FoodItem(
+                id = i + 1,
+                name = "Тестовый продукт ${i + 1}",
+                nutrients = listOf(
+                    Nutrient("Белки", 10.0 + i, "г"),
+                    Nutrient("Углеводы", 20.0 + i, "г"),
+                    Nutrient("Жиры", 5.0 + i, "г")
+                )
+            )
+        }
+    }
+
+    val displayItems = if (state.foodItems.isEmpty()) demoFoodItems else state.foodItems
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+
     ) {
-        // Заголовок
-        Text(
-            "Мои продукты",
-            style = MaterialTheme.typography.h4,
-            color = MaterialTheme.colors.primary,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(verticalScrollState)
+                .padding(16.dp)
+        ) {
+            // Заголовок
+            Text(
+                "Мои продукты",
+                style = MaterialTheme.typography.h4,
+                color = MaterialTheme.colors.primary,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        // Статистика
-        NutritionSummary(state)
+            // Статистика
+            NutritionSummary(state)
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        // Список продуктов
-        if (state.foodItems.isEmpty()) {
-            EmptyState()
-        } else {
-            FoodItemsList(state)
+            // Список продуктов
+            if (displayItems.isEmpty()) {
+                EmptyState()
+            } else {
+                FoodItemsList(displayItems)
+            }
+
+            // Добавляем много контента для демонстрации прокрутки
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                "Дополнительная информация:",
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            repeat(10) { index ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    elevation = 1.dp,
+                    backgroundColor = Color.LightGray.copy(alpha = 0.2f)
+                ) {
+                    Text(
+                        "Дополнительная карточка ${index + 1} для демонстрации прокрутки",
+                        modifier = Modifier.padding(8.dp),
+                        style = MaterialTheme.typography.body2
+                    )
+                }
+            }
+
+            // Добавляем отступ внизу для удобства прокрутки
+            Spacer(modifier = Modifier.height(32.dp))
         }
+
+        // ВИДИМЫЙ СКРОЛЛБАР - добавляем справа
+        VerticalScrollbar(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .fillMaxHeight(),
+            adapter = rememberScrollbarAdapter(verticalScrollState)
+        )
     }
 }
 
@@ -213,7 +277,7 @@ fun EmptyState() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                Icons.Default.Phone, // Заменили Restaurant на Fastfood
+                Icons.Default.List,
                 contentDescription = "Нет продуктов",
                 tint = Color.Gray,
                 modifier = Modifier.size(48.dp)
@@ -236,7 +300,7 @@ fun EmptyState() {
 }
 
 @Composable
-fun FoodItemsList(state: AppState) {
+fun FoodItemsList(foodItems: List<FoodItem>) {
     Column {
         Text(
             "Добавленные продукты:",
@@ -244,7 +308,7 @@ fun FoodItemsList(state: AppState) {
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
-        state.foodItems.forEach { foodItem ->
+        foodItems.forEach { foodItem ->
             FoodItemCard(foodItem, modifier = Modifier.padding(vertical = 6.dp))
         }
     }
@@ -298,30 +362,70 @@ fun NutrientRow(nutrient: Nutrient) {
 
 @Composable
 fun AddFoodScreen(state: AppState) {
-    Column(
+    // Состояние для вертикальной прокрутки с видимым скроллбаром
+    val verticalScrollState = rememberScrollState()
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+
     ) {
-        // Заголовок с кнопкой назад
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 20.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(verticalScrollState)
+                .padding(16.dp)
         ) {
-            IconButton(onClick = { state.currentScreen = Screen.Main }) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Назад")
+            // Заголовок с кнопкой назад
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 20.dp)
+            ) {
+                IconButton(onClick = { state.currentScreen = Screen.Main }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Назад")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    "Добавить продукт",
+                    style = MaterialTheme.typography.h4,
+                    color = MaterialTheme.colors.primary
+                )
             }
-            Spacer(modifier = Modifier.width(8.dp))
+
+            // Форма добавления
+            AddFoodForm(state)
+
+            // Добавляем дополнительный контент для демонстрации прокрутки
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
-                "Добавить продукт",
-                style = MaterialTheme.typography.h4,
-                color = MaterialTheme.colors.primary
+                "Дополнительные поля (для демонстрации прокрутки):",
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(bottom = 12.dp)
             )
+            repeat(5) { index ->
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    label = { Text("Дополнительное поле ${index + 1}") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    enabled = false
+                )
+            }
+
+            // Добавляем отступ внизу для удобства прокрутки
+            Spacer(modifier = Modifier.height(32.dp))
         }
 
-        // Форма добавления
-        AddFoodForm(state)
+        // ВИДИМЫЙ СКРОЛЛБАР - добавляем справа
+        VerticalScrollbar(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .fillMaxHeight(),
+
+            adapter = rememberScrollbarAdapter(verticalScrollState)
+        )
     }
 }
 
