@@ -10,10 +10,13 @@ import androidx.compose.runtime.setValue
 import org.example.model.Nutrient
 
 class AppState {
-    var isDarkTheme by mutableStateOf(true)  // ← по умолчанию тёмная
+
+
     var currentScreen by mutableStateOf<Screen>(Screen.Main)
     var foodItems = mutableStateListOf<FoodItem>()
     var newFoodName by mutableStateOf("")
+
+    var isDarkTheme by mutableStateOf(true)  // ← по умолчанию тёмная
 
     // Данные для нового продукта
     var newProtein by mutableStateOf("")

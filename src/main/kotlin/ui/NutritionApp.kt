@@ -9,11 +9,13 @@ import androidx.compose.ui.Modifier
 import org.example.state.AppState
 import org.example.ui.screens.MainScreen
 import org.example.ui.screens.AddFoodScreen
+import org.example.ui.screens.SettingsScreen  // ← Импортируем новый экран
 import org.example.model.Screen
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings  // ← Новая иконка
 import androidx.compose.ui.graphics.Color
 
 @Composable
@@ -27,6 +29,7 @@ fun NutritionApp(state: AppState) {
                 when (state.currentScreen) {
                     is Screen.Main -> MainScreen(state)
                     is Screen.AddFood -> AddFoodScreen(state)
+                    is Screen.Settings -> SettingsScreen(state)  // ← Добавляем экран настроек
                 }
             }
         }
@@ -35,7 +38,7 @@ fun NutritionApp(state: AppState) {
 
 
 @Composable
-fun TopAppBarSection(state: AppState) {
+private fun TopAppBarSection(state: AppState) {
     TopAppBar(
         title = { Text("Трекер питания") },
         actions = {
@@ -44,8 +47,10 @@ fun TopAppBarSection(state: AppState) {
             }) {
                 Icon(Icons.Default.Add, contentDescription = "Добавить продукт")
             }
-            IconButton(onClick = { /* Статистика - временно убрана */ }) {
-                Icon(Icons.Default.Info, contentDescription = "Информация")
+            IconButton(onClick = {
+                state.currentScreen = Screen.Settings  // ← Открываем настройки
+            }) {
+                Icon(Icons.Default.Settings, contentDescription = "Настройки")
             }
         },
         backgroundColor = MaterialTheme.colors.primary,
