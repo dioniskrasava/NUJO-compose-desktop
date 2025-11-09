@@ -1,4 +1,4 @@
-package org.example.ui.components
+package app.nujo.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

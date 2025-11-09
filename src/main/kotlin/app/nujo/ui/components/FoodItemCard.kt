@@ -1,4 +1,4 @@
-package org.example.ui.components
+package app.nujo.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.example.model.FoodItem
+
+import app.nujo.model.FoodItem
+import app.nujo.ui.components.NutrientRow
 
 @Composable
 fun FoodItemCard(foodItem: FoodItem, modifier: Modifier = Modifier) {

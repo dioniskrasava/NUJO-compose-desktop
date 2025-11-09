@@ -1,12 +1,12 @@
-package org.example
+package app.nujo
 
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import org.example.state.AppState
-import org.example.ui.NutritionApp
-import org.example.ui.NutritionTrackerTheme
+
+import app.nujo.state.AppState
+import app.nujo.ui.NutritionApp
+import app.nujo.ui.NutritionTrackerTheme
 
 
 fun main() = application {

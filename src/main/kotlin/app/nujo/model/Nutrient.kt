@@ -1,4 +1,4 @@
-package org.example.model
+package app.nujo.model
 
 data class Nutrient(
     val name: String,

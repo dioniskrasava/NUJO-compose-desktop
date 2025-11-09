@@ -1,4 +1,4 @@
-package org.example.model
+package app.nujo.model
 
 data class FoodItem(
     val id: Int,

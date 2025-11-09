@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.compose") version "1.5.11"
 }
 
-group = "org.example"
+group = "app.nujo"
 version = "1.0.0"
 
 repositories {
@@ -17,7 +17,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "org.example.MainKt"
+        mainClass = "app.nujo.MainKt"
 
         nativeDistributions {
             packageName = "ComposeCounter"

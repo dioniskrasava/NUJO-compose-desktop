@@ -1,4 +1,4 @@
-package org.example.ui.screens
+package app.nujo.ui.screens
 
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.Arrangement
@@ -26,13 +26,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.example.model.FoodItem
-import org.example.model.Nutrient
-import org.example.state.AppState
-import org.example.ui.components.FoodItemCard
-import org.example.ui.components.NutritionStat
-import org.example.utils.calculateTotals
+
+import app.nujo.model.FoodItem
+import app.nujo.model.Nutrient
+import app.nujo.state.AppState
+import app.nujo.ui.components.FoodItemCard
+import app.nujo.ui.components.NutritionStat
+import app.nujo.utils.calculateTotals
 
 
 @Composable
@@ -186,7 +188,7 @@ fun EmptyState() {
                 "Нажмите + в верхнем баре чтобы добавить первый продукт",
                 style = MaterialTheme.typography.body2,
                 color = Color.Gray,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                textAlign = TextAlign.Center
             )
         }
     }

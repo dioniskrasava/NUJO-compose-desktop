@@ -1,4 +1,4 @@
-package org.example.ui.components
+package app.nujo.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -7,7 +7,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.example.model.Nutrient
+
+import app.nujo.model.Nutrient
 
 @Composable
 fun NutrientRow(nutrient: Nutrient) {

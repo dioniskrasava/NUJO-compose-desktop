@@ -1,6 +1,5 @@
-package org.example.ui.screens
+package app.nujo.ui.screens
 
-import org.example.state.AppState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.example.model.Screen
+
+import app.nujo.model.Screen
+import app.nujo.state.AppState
 
 @Composable
 fun SettingsScreen(state: AppState) {

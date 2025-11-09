@@ -1,4 +1,4 @@
-package org.example.ui.screens
+package app.nujo.ui.screens
 
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.Arrangement
@@ -30,10 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.example.model.Screen
-import org.example.state.AppState
-import org.example.ui.components.NutrientInputField
 
+import app.nujo.model.Screen
+import app.nujo.state.AppState
+import app.nujo.ui.components.NutrientInputField
+import app.nujo.ui.screens.AddFoodForm
 
 
 @Composable

@@ -1,6 +1,6 @@
-package org.example.utils
+package app.nujo.utils
 
-import org.example.model.FoodItem
+import app.nujo.model.FoodItem
 
 data class NutritionTotals(
     val protein: Double,

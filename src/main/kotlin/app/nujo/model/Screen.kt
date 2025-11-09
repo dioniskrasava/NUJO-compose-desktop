@@ -1,4 +1,4 @@
-package org.example.model
+package app.nujo.model
 
 sealed class Screen {
     object Main : Screen()
